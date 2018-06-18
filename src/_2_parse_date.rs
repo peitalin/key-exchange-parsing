@@ -18,23 +18,24 @@ impl From<std::num::ParseIntError> for Error {
     }
 }
 
+static MONTH_NAMES: [&str; 12] = [
+    "January"
+    , "February"
+    , "March"
+    , "April"
+    , "May"
+    , "June"
+    , "July"
+    , "August"
+    , "September"
+    , "October"
+    , "November"
+    , "December"
+];
+
 
 pub fn parse_month(month: &str) -> Option<usize> {
-    let months = vec![
-        "January"
-        , "February"
-        , "March"
-        , "April"
-        , "May"
-        , "June"
-        , "July"
-        , "August"
-        , "September"
-        , "October"
-        , "November"
-        , "December"
-    ];
-    match months.iter().position(|&elem| elem == month) {
+    match MONTH_NAMES.iter().position(|&elem| elem == month) {
         Some(index) => Some(index + 1),
         None => None,
     }
@@ -112,7 +113,8 @@ mod tests {
         }
 
         #[test]
-        fn parses_date_back_to_original(y in 0i32..1000, m in 1u32..13, d in 1u32..32) {
+        fn parses_date_back_to_original(y in 0i32..10000, m in 0usize..12, d in 1u32..32) {
+            let human_month = MONTH_NAMES[m];
             println!("y: {} m: {} d: {}", y, m, d);
             assert!(true);
         }
