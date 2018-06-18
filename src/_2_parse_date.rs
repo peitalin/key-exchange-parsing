@@ -72,7 +72,6 @@ pub fn parse_date(humandate: impl AsRef<str>) -> Result<NaiveDate, Error> {
         return Err(Error::ParseError);
     }
     let day: u32 = parse_day(parts[0])?;
-    // TO DO: parts[1] == of;
     let month: u32 = parse_month(parts[2]).ok_or_else(|| Error::ParseError)? as u32;
     let year: i32 = parts[3].parse()?;
     NaiveDate::from_ymd_opt(year, month, day).ok_or_else(|| Error::InvalidDateError)
@@ -97,10 +96,19 @@ mod tests {
 
     proptest! {
         #[test]
-        // \\PC* feeds any kind of input into parse_date parser
-        // to test for bugs
         fn doesnt_crash(ref s in "\\PC*") {
+            // \\PC* feeds any kind of input into parse_date parser
+            // to test for bugs
             parse_date(s);
+        }
+
+        #[test]
+        fn handles_invalid_words(ref s in "([0-9a-z]{1,5} ){3}[0-9a-z]{1,5}") {
+            // generates any words of length 1-5 chars from [0-9a-z];
+            // generates 3 of these words
+            // follows with a word from [0-9a-z] of 1-5 chars
+            // Generates this sentence to test in parse_dates(s)
+            let _ = parse_date(s);
         }
     }
 
