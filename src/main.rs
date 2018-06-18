@@ -1,11 +1,13 @@
 
 #![allow(dead_code)]
+#![allow(non_snake_case)]
 
 mod _1_key_exchange;
 mod _2_parse_date;
 
 extern crate chrono;
 #[macro_use] extern crate proptest;
+// Macro must preceded extern crate proptest
 
 
 fn main() {
@@ -19,6 +21,6 @@ fn main() {
                 d.format("%A, %-d %B, %C%y").to_string(),
                 d.format("%Y-%m-%d").to_string()
             ),
-        Err(e) => println!("\nInvalid date!"),
+        Err(_e) => println!("\nInvalid date!"),
     }
 }

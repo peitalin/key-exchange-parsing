@@ -1,9 +1,7 @@
 
 
 
-use chrono;
 use chrono::NaiveDate;
-use proptest;
 use std;
 
 
@@ -15,7 +13,7 @@ pub enum Error {
 }
 
 impl From<std::num::ParseIntError> for Error {
-    fn from(t: std::num::ParseIntError) -> Error {
+    fn from(_t: std::num::ParseIntError) -> Error {
         Error::ParseError
     }
 }
@@ -99,6 +97,8 @@ mod tests {
 
     proptest! {
         #[test]
+        // \\PC* feeds any kind of input into parse_date parser
+        // to test for bugs
         fn doesnt_crash(ref s in "\\PC*") {
             parse_date(s);
         }

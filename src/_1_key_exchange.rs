@@ -9,15 +9,15 @@ use self::num::pow;
 
 pub fn key_exchange() {
     // Must agree on a shared prime and shared base
-    let mut shared_prime: usize = 23;
+    let shared_prime: usize = 23;
     // p
-    let mut shared_base: usize = 5;
+    let shared_base: usize = 5;
     // g
 
     // Alice and Bob then have their own secret keys
-    let mut alice_secret: usize = 6;
+    let alice_secret: usize = 6;
     // a
-    let mut bob_secret: usize = 7;
+    let bob_secret: usize = 7;
     // b
 
     // Begin
