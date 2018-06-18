@@ -115,8 +115,18 @@ mod tests {
         #[test]
         fn parses_date_back_to_original(y in 0i32..10000, m in 0usize..12, d in 1u32..32) {
             let human_month = MONTH_NAMES[m];
-            println!("y: {} m: {} d: {}", y, m, d);
-            assert!(true);
+            let ordinal = match d {
+                1 | 21 | 31 => "st",
+                2 | 22 => "nd",
+                3 | 23 => "rd",
+                _ => "th",
+            };
+            let date_string = format!("{}{} of {} {}", d, ordinal, human_month, y);
+            println!("{}", date_string);
+            assert_eq!(
+                parse_date(date_string),
+                NaiveDate::from_ymd_opt(y, (m + 1) as u32, d).ok_or_else(|| Error::InvalidDateError)
+               );
         }
     }
 
