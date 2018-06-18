@@ -1,11 +1,11 @@
 
-#[cfg(test)]
-#[cfg(macro_use)]
+
 
 use chrono;
 use chrono::NaiveDate;
 use proptest;
 use std;
+
 
 #[derive(Debug, PartialEq)]
 pub enum Error {
@@ -97,11 +97,11 @@ mod tests {
         );
     }
 
-    // proptest! {
-    //     #[test]
-    //     fn doesnt_crash(ref s in "\\PC*") {
-    //         parse(s);
-    //     }
-    // }
+    proptest! {
+        #[test]
+        fn doesnt_crash(ref s in "\\PC*") {
+            parse_date(s);
+        }
+    }
 
 }
