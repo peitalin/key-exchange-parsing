@@ -110,6 +110,12 @@ mod tests {
             // Generates this sentence to test in parse_dates(s)
             let _ = parse_date(s);
         }
+
+        #[test]
+        fn parses_date_back_to_original(y in 0i32..1000, m in 1u32..13, d in 1u32..32) {
+            println!("y: {} m: {} d: {}", y, m, d);
+            assert!(true);
+        }
     }
 
 }
