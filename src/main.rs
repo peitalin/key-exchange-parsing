@@ -27,5 +27,6 @@ fn main() {
         Err(_e) => println!("\nInvalid date!"),
     }
 
-    _3_enums_traits::greet(Language::German);
+    let greeter = _3_enums_traits::Greeter::new().with_language(Language::German);
+    greeter.greet();
 }

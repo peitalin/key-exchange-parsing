@@ -5,23 +5,40 @@ pub enum Language {
     German,
 }
 
-pub fn greet(language: Language) {
-    let greeting = match language {
-        Language::English => "Hello",
-        Language::German => "Hallo",
-        _ => "Oi"
-    };
-    println!("{} Rust", greeting);
+pub struct Greeter {
+    language: Language,
 }
+
+impl Greeter {
+    pub fn new() -> Greeter {
+        Greeter {
+            language: Language::English,
+        }
+    }
+
+    pub fn with_language(mut self, language: Language) -> Greeter {
+        // must pass in mut self, to be able to modify this self instance
+        self.language = language;
+        self
+    }
+
+    pub fn greet(self) {
+        let greeting = match self.language {
+            Language::English => "Hello",
+            Language::German => "Hallo",
+            _ => "Oi"
+        };
+        println!("{} Rust", greeting);
+    }
+}
+
 
 #[cfg(test)]
 mod tests {
     use super::*;
     #[test]
     fn it_works() {
-        greet(Language::English)
-    }
-    fn it_works_ja() {
-        greet(Language::English)
+        let greeter = Greeter::new();
+        greeter.greet();
     }
 }
