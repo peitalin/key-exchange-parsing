@@ -4,10 +4,13 @@
 
 mod _1_key_exchange;
 mod _2_parse_date;
+mod _3_enums_traits;
 
 extern crate chrono;
 #[macro_use] extern crate proptest;
 // Macro must preceded extern crate proptest
+
+use _3_enums_traits::Language;
 
 
 fn main() {
@@ -23,4 +26,6 @@ fn main() {
             ),
         Err(_e) => println!("\nInvalid date!"),
     }
+
+    _3_enums_traits::greet(Language::German);
 }
