@@ -6,11 +6,12 @@ pub enum Language {
 }
 
 pub fn greet(language: Language) {
-    match language {
-        Language::English => println!("Hello Rust"),
-        Language::German => println!("Hallo German"),
-        _ => println!("Nothing ")
-    }
+    let greeting = match language {
+        Language::English => "Hello",
+        Language::German => "Hallo",
+        _ => "Oi"
+    };
+    println!("{} Rust", greeting);
 }
 
 #[cfg(test)]
