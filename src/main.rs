@@ -28,5 +28,4 @@ fn main() {
     }
 
     let greeter = _3_enums_traits::Greeter::new().with_language(Language::German);
-    greeter.greet();
 }
