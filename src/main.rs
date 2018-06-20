@@ -5,6 +5,7 @@
 mod _1_key_exchange;
 mod _2_parse_date;
 mod _3_enums_traits;
+mod _4_listc;
 
 extern crate chrono;
 #[macro_use] extern crate proptest;
@@ -28,4 +29,6 @@ fn main() {
     }
 
     let greeter = _3_enums_traits::Greeter::new().with_language(Language::German);
+
+    _4_listc::listc();
 }
