@@ -12,7 +12,7 @@ pub fn listc() {
         .filter_map(Result::ok)
         .collect();
 
-    let words_length: HashMap<_, usize> = words.iter().map(|word| (word, word.len())).collect();
+    let words_length: HashMap<usize, _> = words.iter().map(|word| (word.len(), word)).collect();
     println!("{:?}", words_length);
 }
 
