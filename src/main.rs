@@ -28,11 +28,12 @@ fn main() {
     // // let greeter = _3_enums_traits::Greeter::new().with_language(Language::German);
     // // _4_listc::listc();
 
-    let ctx = Context{
+    let mut ctx = Context{
         seed_sortition: 1,
         user_weights: vec![0.4,0.4,0.1,0.1],
         prev_block: Block::Block
     };
     let mut round: i32 = 1;
-    _5_algorand::BA_star(ctx, round, Block::Block);
+    let mut block = Block::Block;
+    _5_algorand::BA_star(ctx, round, block);
 }

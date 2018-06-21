@@ -48,6 +48,9 @@ pub fn BA_star(ctx: Context, round: i32, block: Block) {
     println!("\tContext: {}", ctx);
     println!("\tRound: {}", round);
     println!("\tBlock: {:?}", block);
+
+    Reduction(ctx, round, block);
+    BinaryBA_star(ctx, round, block);
 }
 
 #[derive(Debug)]
