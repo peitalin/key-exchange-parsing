@@ -10,8 +10,10 @@ extern crate digest;
 use std::fmt;
 use self::sha2::Sha256;
 use self::digest::Digest;
+use std::hash::{ Hash, Hasher };
 
 
+// Defined: Micali et al., (2018, page 8)
 pub struct Context {
     pub seed_sortition: i32,
     pub user_weights: Vec<f64>,
@@ -20,7 +22,7 @@ pub struct Context {
 
 impl fmt::Display for Context {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Context: (seed_sortition: {}, user_weights: {:?}, prev_block: {:?})",
+        write!(f, "(seed_sortition: {}, user_weights: {:?}, prev_block: {:?})",
            self.seed_sortition,
            self.user_weights,
            self.prev_block,
@@ -42,6 +44,29 @@ fn hash_eg() {
 
 pub fn BA_star(ctx: Context, round: i32, block: Block) {
     println!("\nBA* Algorithm");
+    println!("Params:");
+    println!("\tContext: {}", ctx);
+    println!("\tRound: {}", round);
+    println!("\tBlock: {:?}", block);
+}
+
+#[derive(Debug)]
+pub enum ConsensusType {
+    FINAL,
+    TENTATIVE,
+}
+
+
+fn Reduction(ctx: Context, round: i32, block: Block)  {
+    unimplemented!();
+}
+
+fn BinaryBA_star(ctx: Context, round: i32, block: Block) {
+    unimplemented!();
+}
+
+fn CountVotes(ctx: Context, round: i32, Final: ConsensusType, T_final: f64, tau_final: f64, lambda_step: f64) {
+    unimplemented!();
 }
 
 

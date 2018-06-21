@@ -33,7 +33,6 @@ fn main() {
         user_weights: vec![0.4,0.4,0.1,0.1],
         prev_block: Block::Block
     };
-    println!("{}", ctx);
     let mut round: i32 = 1;
     _5_algorand::BA_star(ctx, round, Block::Block);
 }
