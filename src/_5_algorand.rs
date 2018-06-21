@@ -50,15 +50,22 @@ pub fn BA_star(ctx: Context, round: i32, block: Block) {
     println!("\tBlock: {:?}", block);
 
     let mut hblock = Reduction(&ctx, round, &block);
-    let mut hblock_star = BinaryBA_star(&ctx, round, &block);
+    let mut hblock_star = BinaryBA_star(&ctx, round, &hblock);
 
+    // Count Votes
     let T_final = 0.5;
     let tau_final = 0.5;
     let lambda_step = 0.01;
-    // let mut r = CountVotes(ctx, round, ConsensusType::FINAL, T_final, tau_final, lambda_step);
-    // if hblock_star == r {
-    //
-    // }
+    let mut r = CountVotes(&ctx, round, ConsensusType::FINAL, T_final, tau_final, lambda_step);
+
+    // Hash Block
+    let block_of_hashes = BlockOfHash(hblock_star)
+
+    if hblock_star == r {
+        return  ConsensusType::FINAL
+    } else {
+        return ConsensusType::TENTATIVE
+    }
 }
 
 #[derive(Debug)]
@@ -71,7 +78,7 @@ fn BlockOfHash(hblock_star: Block) {
     unimplemented!();
 }
 
-fn Reduction(ctx: &Context, round: i32, block: &Block)  {
+fn Reduction(ctx: &Context, round: i32, block: &Block) -> Block::Block {
     println!("\nReduction():");
     println!("\tWas passed Context: {}", ctx);
     // unimplemented!();
