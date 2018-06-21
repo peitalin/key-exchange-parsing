@@ -49,8 +49,16 @@ pub fn BA_star(ctx: Context, round: i32, block: Block) {
     println!("\tRound: {}", round);
     println!("\tBlock: {:?}", block);
 
-    Reduction(ctx, round, block);
-    BinaryBA_star(ctx, round, block);
+    let mut hblock = Reduction(&ctx, round, &block);
+    let mut hblock_star = BinaryBA_star(&ctx, round, &block);
+
+    let T_final = 0.5;
+    let tau_final = 0.5;
+    let lambda_step = 0.01;
+    // let mut r = CountVotes(ctx, round, ConsensusType::FINAL, T_final, tau_final, lambda_step);
+    // if hblock_star == r {
+    //
+    // }
 }
 
 #[derive(Debug)]
@@ -59,16 +67,23 @@ pub enum ConsensusType {
     TENTATIVE,
 }
 
-
-fn Reduction(ctx: Context, round: i32, block: Block)  {
+fn BlockOfHash(hblock_star: Block) {
     unimplemented!();
 }
 
-fn BinaryBA_star(ctx: Context, round: i32, block: Block) {
-    unimplemented!();
+fn Reduction(ctx: &Context, round: i32, block: &Block)  {
+    println!("\nReduction():");
+    println!("\tWas passed Context: {}", ctx);
+    // unimplemented!();
 }
 
-fn CountVotes(ctx: Context, round: i32, Final: ConsensusType, T_final: f64, tau_final: f64, lambda_step: f64) {
+fn BinaryBA_star(ctx: &Context, round: i32, block: &Block) {
+    println!("\nBinaryBA*():");
+    println!("\tWas passed Context: {}", ctx);
+    // unimplemented!();
+}
+
+fn CountVotes(ctx: &Context, round: i32, Final: ConsensusType, T_final: f64, tau_final: f64, lambda_step: f64) {
     unimplemented!();
 }
 
