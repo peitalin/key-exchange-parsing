@@ -31,8 +31,8 @@ impl fmt::Display for Context {
 }
 
 #[derive(Debug)]
-pub enum Block {
-    Block
+pub struct Block {
+    pub tx: Vec<f64>
 }
 
 fn hash_eg() {
@@ -42,7 +42,7 @@ fn hash_eg() {
     println!("hasher: {:?}", output);
 }
 
-pub fn BA_star(ctx: Context, round: i32, block: Block) {
+pub fn BA_star(ctx: Context, round: i32, block: Block) -> ConsensusType {
     println!("\nBA* Algorithm");
     println!("Params:");
     println!("\tContext: {}", ctx);
@@ -50,22 +50,22 @@ pub fn BA_star(ctx: Context, round: i32, block: Block) {
     println!("\tBlock: {:?}", block);
 
     let mut hblock = Reduction(&ctx, round, &block);
-    let mut hblock_star = BinaryBA_star(&ctx, round, &hblock);
+    let mut hblock_star = BinaryBA_star(&ctx, round, &block);
 
     // Count Votes
     let T_final = 0.5;
     let tau_final = 0.5;
     let lambda_step = 0.01;
-    let mut r = CountVotes(&ctx, round, ConsensusType::FINAL, T_final, tau_final, lambda_step);
-
-    // Hash Block
-    let block_of_hashes = BlockOfHash(hblock_star)
-
-    if hblock_star == r {
-        return  ConsensusType::FINAL
-    } else {
-        return ConsensusType::TENTATIVE
-    }
+    // let mut r = CountVotes(&ctx, round, ConsensusType::FINAL, T_final, tau_final, lambda_step);
+    // // Hash Block
+    // let block_of_hashes = BlockOfHash(hblock_star);
+    //
+    // if hblock_star == r {
+    //     return  ConsensusType::FINAL
+    // } else {
+    //     return ConsensusType::TENTATIVE
+    // }
+    return  ConsensusType::FINAL
 }
 
 #[derive(Debug)]
@@ -78,9 +78,10 @@ fn BlockOfHash(hblock_star: Block) {
     unimplemented!();
 }
 
-fn Reduction(ctx: &Context, round: i32, block: &Block) -> Block::Block {
+fn Reduction(ctx: &Context, round: i32, block: &Block) {
     println!("\nReduction():");
     println!("\tWas passed Context: {}", ctx);
+    // return block
     // unimplemented!();
 }
 
