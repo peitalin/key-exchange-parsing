@@ -78,6 +78,17 @@ pub fn parse_date(humandate: impl AsRef<str>) -> Result<NaiveDate, Error> {
     NaiveDate::from_ymd_opt(year, month, day).ok_or_else(|| Error::InvalidDateError)
 }
 
+pub fn print_parsed_date(humandate: impl AsRef<str>) {
+    let date = parse_date(humandate);
+    match date {
+        Ok(d) => println!(
+            "\nThe date input is: {}\nWhich is: {}",
+            d.format("%A %-d %B, %C%y").to_string(),
+            d.format("%Y-%m-%d").to_string()),
+        Err(_e) => println!("\nInvalid Date!"),
+    }
+}
+
 
 #[cfg(test)]
 mod tests {
