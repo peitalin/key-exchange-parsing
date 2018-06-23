@@ -23,7 +23,7 @@ pub struct Context<'a> {
 }
 impl<'a> fmt::Display for Context<'a> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "(seed_sortition: {}, user_weights: {:?}, prev_block: {:?})",
+        write!(f, "\n\t\t(seed_sortition: {}, \n\t\tuser_weights: {:?}, \n\t\tprev_block: {:?})",
            self.seed_sortition,
            self.user_weights,
            self.prev_block,
@@ -68,16 +68,16 @@ pub fn BA_star(ctx: &Context, round: i32, block: &Block) -> ConsensusType {
     println!("\tBlock: {:?}", block);
 
     let mut hblock      = Reduction(&ctx, round, &block);
-    println!("\nNew block: {:?}\n", hblock);
     let mut hblock_star = BinaryBA_star(&ctx, round, &hblock);
 
     // Count Votes
     let T_final     = 0.5;
     let tau_final   = 0.3;
     let lambda_step = 0.01;
-    // let r = CountVotes(&ctx, round, ConsensusType::FINAL, T_final, tau_final, lambda_step);
-    // // Hash Block
-    // let block_of_hashes = BlockOfHash(hblock_star);
+    // Check if we reach FINAL or TENTATIVE consensus
+    let r = CountVotes(&ctx, round, ConsensusType::FINAL, T_final, tau_final, lambda_step);
+    // Hash Block
+    let block_of_hashes = BlockOfHash(hblock_star);
 
     // if hblock_star == r {
     //     return  ConsensusType::FINAL
@@ -87,13 +87,20 @@ pub fn BA_star(ctx: &Context, round: i32, block: &Block) -> ConsensusType {
     return ConsensusType::FINAL
 }
 
-fn BlockOfHash(hblock_star: Block) {
-    unimplemented!();
+fn BlockOfHash<'a>(hblock_star: &'a Block) -> &'a Block {
+    println!("\nBlockOfHash():");
+    println!("\thblock_star: {:?}", hblock_star);
+    hblock_star
 }
 
 fn Reduction<'a>(ctx: &Context, round: i32, block: &'a Block) -> Block {
+    // Converts the problem of reaching consensus on an arbitrary value (hash of block)
+    // to reaching consensus on one of two values:
+    // either a specific proposed block hash, of the hash of an empty block
+    // Micali et al. (page 9)
+
     println!("\nReduction():");
-    println!("\tWas passed Context: {}", ctx);
+    println!("\tInput Context: {}", ctx);
     Block{
         prev_hash: hash_block(&block),
         tx: vec![1, 20, 300, 400].iter().map(|&n| n+1).collect(),
@@ -101,14 +108,25 @@ fn Reduction<'a>(ctx: &Context, round: i32, block: &'a Block) -> Block {
 }
 
 fn BinaryBA_star<'a>(ctx: &Context, round: i32, block: &'a Block) -> &'a Block {
+    // Executes until there is consensus on either block_hash, or empty_hash
     println!("\nBinaryBA*():");
-    println!("\tWas passed Context: {}", ctx);
+    println!("\tInput Context: {}", ctx);
     return block
     // unimplemented!();
 }
 
 fn CountVotes(ctx: &Context, round: i32, Final: ConsensusType, T_final: f64, tau_final: f64, lambda_step: f64) {
-    unimplemented!();
+    // unimplemented!();
 }
+
+
+fn CommitteeVote() {
+    // Sortition to check if user is in committee
+    // If so, start Gossip protocol to relay blocks/proofs
+    //
+}
+
+
+
 
 

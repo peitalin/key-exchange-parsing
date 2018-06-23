@@ -9,9 +9,11 @@ mod _2_parse_date;
 mod _3_enums_traits;
 mod _4_listc;
 mod _5_algorand;
+mod _6_network;
 
 extern crate chrono;
 #[macro_use] extern crate proptest;
+#[macro_use(c)] extern crate cute;
 // Macro must preceded extern crate proptest
 
 use std::vec::Vec;
@@ -41,4 +43,5 @@ fn main() {
     };
     let mut round: i32 = 1;
     _5_algorand::BA_star(&ctx, round, &genesis_block);
+    _6_network::serve();
 }
