@@ -10,15 +10,17 @@ mod _3_enums_traits;
 mod _4_listc;
 mod _5_algorand;
 mod _6_network;
+mod _7_lifetimes;
 
 extern crate chrono;
+extern crate hyper;
 #[macro_use] extern crate proptest;
 #[macro_use(c)] extern crate cute;
 // Macro must preceded extern crate proptest
 
-use std::vec::Vec;
 use _3_enums_traits::Language;
 use _5_algorand::{ Context, Block, hash_block };
+
 
 
 fn main() {
@@ -42,6 +44,9 @@ fn main() {
         prev_block: &genesis_block, // Reference to genesis bloc
     };
     let mut round: i32 = 1;
-    _5_algorand::BA_star(&ctx, round, &genesis_block);
-    _6_network::serve();
+    // _5_algorand::BA_star(&ctx, round, &genesis_block);
+    _6_network::serve(&"Hello Rustacean!".to_string());
+
+    _7_lifetimes::life();
+
 }
