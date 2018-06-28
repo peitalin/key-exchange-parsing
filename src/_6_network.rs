@@ -25,16 +25,46 @@ fn handle_connection(mut stream: TcpStream) {
     let mut buffer = [0; 512];
     stream.read(&mut buffer);
 
-    let mut file = File::open("src/test.html").expect("File failed to open");
-    let mut contents = String::new();
-    file.read_to_string(&mut contents);
+    let get = b"GET / HTTP/1.1\r\n";
 
-    let response = format!("HTTP/1.1 200 OK\r\n\r\n{}", contents);
+    if buffer.starts_with(get) {
+        let mut file = File::open("src/test.html").expect("File failed to open");
+        let mut contents = String::new();
+        file.read_to_string(&mut contents);
 
-    stream.write(response.as_bytes());
-    stream.flush();
+        let response = format!("HTTP/1.1 200 OK\r\n\r\n{}", contents);
+
+        stream.write(response.as_bytes());
+        stream.flush();
+    } else {
+        let status_line = "HTTP/1.1 404 NOT FOUND\r\n\r\n";
+        // let mut file = File::open("404.html").expect("File failed to open");
+        // let mut contents = String::new();
+        // file.read_to_string(&mut contents);
+
+        let contents = file404();
+        let response = format!("{}{}", status_line, contents);
+        stream.write(response.as_bytes()).expect("stream.write() erro ");
+        stream.flush().expect("stream.flush() error");
+    }
 }
 
+fn file404<'a>() -> &'a str {
+    let missingFile = r#"
+        <!DOCTYPE HTML>
+        <html>
+          <head>
+            <meta charset="utf-8">
+            <title>Rust Server Missing File</title>
+          </head>
+          <body>
+            <h1>404!</h1>
+            <p>The route you have requested cannot be found!</p>
+          </body>
+        </html>
+    "#;
+    missingFile
+}
 
 
 
