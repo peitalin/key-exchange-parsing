@@ -24,32 +24,30 @@ pub fn serve(phrase: &str) {
 fn handle_connection(mut stream: TcpStream) {
     let mut buffer = [0; 512];
     stream.read(&mut buffer);
+    println!("REQUEST:\n{}", String::from_utf8_lossy(&buffer[..]));
 
     let get = b"GET / HTTP/1.1\r\n";
-
-    if buffer.starts_with(get) {
-        let mut file = File::open("src/test.html").expect("File failed to open");
-        let mut contents = String::new();
-        file.read_to_string(&mut contents);
-
-        let response = format!("HTTP/1.1 200 OK\r\n\r\n{}", contents);
-
-        stream.write(response.as_bytes());
-        stream.flush();
+    let (status_line, contents) = if buffer.starts_with(get) {
+        ("HTTP/1.1 200 OK\r\n\r\n", fileHome())
     } else {
-        let status_line = "HTTP/1.1 404 NOT FOUND\r\n\r\n";
-        // let mut file = File::open("404.html").expect("File failed to open");
-        // let mut contents = String::new();
-        // file.read_to_string(&mut contents);
+        ("HTTP/1.1 404 NOT FOUND\r\n\r\n", file404())
+    };
 
-        let contents = file404();
-        let response = format!("{}{}", status_line, contents);
-        stream.write(response.as_bytes()).expect("stream.write() erro ");
-        stream.flush().expect("stream.flush() error");
-    }
+    println!("RESPONSE:\n{}", status_line);
+    let response = format!("{}{}", status_line, contents);
+    stream.write(response.as_bytes()).expect("stream.write() error");
+    stream.flush().expect("stream.flush() error");
 }
 
-fn file404<'a>() -> &'a str {
+
+fn fileHome() -> String {
+    let mut file = File::open("src/test.html").expect("File path not found");
+    let mut contents = String::new();
+    file.read_to_string(&mut contents);
+    contents.to_string()
+}
+
+fn file404() -> String {
     let missingFile = r#"
         <!DOCTYPE HTML>
         <html>
@@ -63,7 +61,7 @@ fn file404<'a>() -> &'a str {
           </body>
         </html>
     "#;
-    missingFile
+    missingFile.to_string()
 }
 
 
